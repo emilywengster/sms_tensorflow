@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spam Classifier</title>
+</head>
+<body>
+    <h1>Spam Classifier</h1>
+    <form action="/predict" method="post">
+        <textarea name="message" rows="4" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Check">
+    </form>
+    <div id="result"></div>
+    <script>
+        document.querySelector('form').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `Prediction: ${result.prediction}, Probability: ${result.probability}`;
+        };
+    </script>
+</body>
+</html>
